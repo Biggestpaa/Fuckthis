@@ -86,3 +86,37 @@ function deleteAccessory(index) {
   localStorage.setItem("accessories", JSON.stringify(accs));
   displayAccessories();
 }
+
+
+let editPartIndex = null;
+let editAccessoryIndex = null;
+
+function editPart(index) {
+  const parts = JSON.parse(localStorage.getItem("parts") || "[]");
+  const part = parts[index];
+  document.getElementById("partName").value = part.name;
+  document.getElementById("partNumber").value = part.partNumber;
+  document.getElementById("partPrice").value = part.price;
+  document.getElementById("partMake").value = part.make;
+  document.getElementById("partModel").value = part.model;
+  document.getElementById("partYear").value = part.year;
+  document.getElementById("partCategory").value = part.category;
+  document.getElementById("partSubcategory").value = part.subcategory;
+  editPartIndex = index;
+  document.getElementById("addPartBtn").textContent = "Update Part";
+}
+
+function editAccessory(index) {
+  const accs = JSON.parse(localStorage.getItem("accessories") || "[]");
+  const acc = accs[index];
+  document.getElementById("accName").value = acc.name;
+  document.getElementById("accNumber").value = acc.partNumber;
+  document.getElementById("accPrice").value = acc.price;
+  document.getElementById("accMake").value = acc.make;
+  document.getElementById("accModel").value = acc.model;
+  document.getElementById("accYear").value = acc.year;
+  document.getElementById("accCategory").value = acc.category;
+  document.getElementById("accSubcategory").value = acc.subcategory;
+  editAccessoryIndex = index;
+  document.getElementById("addAccessoryBtn").textContent = "Update Accessory";
+}
