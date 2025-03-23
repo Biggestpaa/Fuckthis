@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body onload="loadAdminPage()">
+  <header>
+    <img id="banner" class="banner" src="banner.jpg" alt="Banner"/>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="parts.html">Parts</a>
+      <a href="accessories.html">Accessories</a>
+    </nav>
+  </header>
+  <main class="main">
+    <h2>Admin Panel</h2>
+    <section>
+      <h3>Update Banner</h3>
+      <input type="file" id="bannerUpload"/>
+      <button onclick="updateBanner()">Upload Banner</button>
+    </section>
+
+    <section>
+      <h3>Add New Part</h3>
+      <input placeholder="Name" id="partName"/>
+      <input placeholder="Part Number" id="partNumber"/>
+      <input placeholder="Price" id="partPrice"/>
+      <input placeholder="Make" id="partMake"/>
+      <input placeholder="Model" id="partModel"/>
+      <input placeholder="Year" id="partYear"/>
+      <input placeholder="Category" id="partCategory"/>
+      <input placeholder="Subcategory" id="partSubcategory"/><br><label>Image:</label><input type="file" id="partImage"/>
+      <button onclick="addPart()">Save Part</button>
+      <div id="partsManager"></div>
+    </section>
+
+    <section>
+      <h3>Add New Accessory</h3>
+      <input placeholder="Name" id="accName"/>
+      <input placeholder="Part Number" id="accNumber"/>
+      <input placeholder="Price" id="accPrice"/>
+      <input placeholder="Make" id="accMake"/>
+      <input placeholder="Model" id="accModel"/>
+      <input placeholder="Year" id="accYear"/>
+      <input placeholder="Category" id="accCategory"/>
+      <input placeholder="Subcategory" id="accSubcategory"/><br><label>Image:</label><input type="file" id="accImage"/>
+      <button onclick="addAccessory()">Save Accessory</button>
+      <div id="accessoriesManager"></div>
+    </section>
+  </main>
+  <script src="admin-v2.js"></script>
+</body>
+</html>
