@@ -1,77 +1,69 @@
 
-function updateBanner() {
-  const file = document.getElementById("bannerUpload").files[0];
-  const reader = new FileReader();
-  reader.onload = () => {
-    localStorage.setItem("bannerImage", reader.result);
-    document.getElementById("banner").src = reader.result;
-  };
-  if (file) reader.readAsDataURL(file);
-}
-
-function loadAdminPage() {
-  const banner = localStorage.getItem("bannerImage");
-  if (banner) document.getElementById("banner").src = banner;
-  displayParts();
-  displayAccessories();
-}
-
-function addPart() {
+document.getElementById("addPartBtn").addEventListener("click", function () {
   const parts = JSON.parse(localStorage.getItem("parts") || "[]");
-  const partImage = document.getElementById('partImage').files[0];
+  const partImage = document.getElementById("partImage").files[0];
   const reader = new FileReader();
   reader.onload = () => {
-    parts.push({
-    name: document.getElementById("partName").value,
-    partNumber: document.getElementById("partNumber").value,
-    price: document.getElementById("partPrice").value,
-    make: document.getElementById("partMake").value,
-    model: document.getElementById("partModel").value,
-    year: document.getElementById("partYear").value,
-    category: document.getElementById("partCategory").value,
-    subcategory: document.getElementById("partSubcategory").value
-  });
-      localStorage.setItem("parts", JSON.stringify(parts));
+    const newPart = {
+      name: document.getElementById("partName").value,
+      partNumber: document.getElementById("partNumber").value,
+      price: document.getElementById("partPrice").value,
+      make: document.getElementById("partMake").value,
+      model: document.getElementById("partModel").value,
+      year: document.getElementById("partYear").value,
+      category: document.getElementById("partCategory").value,
+      subcategory: document.getElementById("partSubcategory").value,
+      image: reader.result || ""
+    };
+
+    if (window.editPartIndex !== null) {
+      parts[editPartIndex] = newPart;
+      window.editPartIndex = null;
+      document.getElementById("addPartBtn").textContent = "Save Part";
+    } else {
+      parts.push(newPart);
+    }
+
+    localStorage.setItem("parts", JSON.stringify(parts));
     displayParts();
   };
-  if (partImage) reader.readAsDataURL(partImage); else reader.onload();
-  displayParts();
-}
 
-function addAccessory() {
+  if (partImage) reader.readAsDataURL(partImage);
+  else reader.onload();
+});
+
+document.getElementById("addAccessoryBtn").addEventListener("click", function () {
   const accs = JSON.parse(localStorage.getItem("accessories") || "[]");
-  const accImage = document.getElementById('accImage').files[0];
-  const reader2 = new FileReader();
-  reader2.onload = () => {
-    accs.push({
-    name: document.getElementById("accName").value,
-    partNumber: document.getElementById("accNumber").value,
-    price: document.getElementById("accPrice").value,
-    make: document.getElementById("accMake").value,
-    model: document.getElementById("accModel").value,
-    year: document.getElementById("accYear").value,
-    category: document.getElementById("accCategory").value,
-    subcategory: document.getElementById("accSubcategory").value
-  });
-      localStorage.setItem("accessories", JSON.stringify(accs));
+  const accImage = document.getElementById("accImage").files[0];
+  const reader = new FileReader();
+  reader.onload = () => {
+    const newAcc = {
+      name: document.getElementById("accName").value,
+      partNumber: document.getElementById("accNumber").value,
+      price: document.getElementById("accPrice").value,
+      make: document.getElementById("accMake").value,
+      model: document.getElementById("accModel").value,
+      year: document.getElementById("accYear").value,
+      category: document.getElementById("accCategory").value,
+      subcategory: document.getElementById("accSubcategory").value,
+      image: reader.result || ""
+    };
+
+    if (window.editAccessoryIndex !== null) {
+      accs[editAccessoryIndex] = newAcc;
+      window.editAccessoryIndex = null;
+      document.getElementById("addAccessoryBtn").textContent = "Save Accessory";
+    } else {
+      accs.push(newAcc);
+    }
+
+    localStorage.setItem("accessories", JSON.stringify(accs));
     displayAccessories();
   };
-  if (accImage) reader2.readAsDataURL(accImage); else reader2.onload();
-  displayAccessories();
-}
 
-function displayParts() {
-  const container = document.getElementById("partsManager");
-  const parts = JSON.parse(localStorage.getItem("parts") || "[]");
-  container.innerHTML = parts.map((p, i) => `<div class='item'>${p.name} - ${p.partNumber} - €${p.price}</div>`)+ `<button onclick='deletePart(i)' style='float:right; background:red; color:white;'>Delete</button>`</div>`)+ `<button onclick='deleteAccessory(i)' style='float:right; background:red; color:white;'>Delete</button>`</div>`).join("");
-}
-
-function displayAccessories() {
-  const container = document.getElementById("accessoriesManager");
-  const accs = JSON.parse(localStorage.getItem("accessories") || "[]");
-  container.innerHTML = accs.map((a, i) => `<div class='item'>${a.name} - ${a.partNumber} - €${a.price}</div>`)+ `<button onclick='deletePart(i)' style='float:right; background:red; color:white;'>Delete</button>`</div>`)+ `<button onclick='deleteAccessory(i)' style='float:right; background:red; color:white;'>Delete</button>`</div>`).join("");
-}
-
+  if (accImage) reader.readAsDataURL(accImage);
+  else reader.onload();
+});
 
 function deletePart(index) {
   const parts = JSON.parse(localStorage.getItem("parts") || "[]");
@@ -87,10 +79,6 @@ function deleteAccessory(index) {
   displayAccessories();
 }
 
-
-let editPartIndex = null;
-let editAccessoryIndex = null;
-
 function editPart(index) {
   const parts = JSON.parse(localStorage.getItem("parts") || "[]");
   const part = parts[index];
@@ -102,7 +90,7 @@ function editPart(index) {
   document.getElementById("partYear").value = part.year;
   document.getElementById("partCategory").value = part.category;
   document.getElementById("partSubcategory").value = part.subcategory;
-  editPartIndex = index;
+  window.editPartIndex = index;
   document.getElementById("addPartBtn").textContent = "Update Part";
 }
 
@@ -117,6 +105,6 @@ function editAccessory(index) {
   document.getElementById("accYear").value = acc.year;
   document.getElementById("accCategory").value = acc.category;
   document.getElementById("accSubcategory").value = acc.subcategory;
-  editAccessoryIndex = index;
+  window.editAccessoryIndex = index;
   document.getElementById("addAccessoryBtn").textContent = "Update Accessory";
 }
